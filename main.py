@@ -1,7 +1,16 @@
 import tkinter as tk
+from tkinter import messagebox
 
-def loginUser():
-    print("Inicio sesion")
+def login_user(email, password):
+    if email == "user@example.com" and password == "123":
+        print("Inicio sesion")
+    else:
+        messagebox.showerror("Error al iniciar sesion", "Email o contraseña incorrectos")
+
+def on_login_button_click():
+    email = emailText.get()
+    password = passwordText.get()
+    login_user(email, password)
 
 login = tk.Tk()
 login.resizable(False, False)
@@ -18,7 +27,7 @@ email = tk.Label(login, text="Ingrese su email:")
 emailText = tk.Entry(login, width=40)
 password = tk.Label(login, text="Ingrese su contraseña:")
 passwordText = tk.Entry(login, show="*", width=40)
-loginButton = tk.Button(login, text="Login", command=loginUser)
+loginButton = tk.Button(login, text="Login", command=on_login_button_click)
 
 # Centering the content
 email.place(relx=0.5, rely=0.3, anchor='center')
