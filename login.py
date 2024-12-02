@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
+from home import show_home
 import sqlite3
 
+# Andre Carbajal
 def login_user(email, password):
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
@@ -10,17 +12,20 @@ def login_user(email, password):
     conn.close()
 
     if result:
-        print("Inicio sesion")
+        login.destroy()
+        show_home()
     else:
         messagebox.showerror("Error al iniciar sesion", "Email o contraseña incorrectos")
 
+# Fatima Yupa
 def on_login_button_click(event=None):
     email = emailText.get()
     password = passwordText.get()
     login_user(email, password)
 
+# Andre Carbajal
 def show_login():
-    global emailText, passwordText
+    global emailText, passwordText, login
 
     login = tk.Tk()
     login.resizable(False, False)
