@@ -14,7 +14,7 @@ def login_user(email, password):
     else:
         messagebox.showerror("Error al iniciar sesion", "Email o contraseña incorrectos")
 
-def on_login_button_click():
+def on_login_button_click(event=None):
     email = emailText.get()
     password = passwordText.get()
     login_user(email, password)
