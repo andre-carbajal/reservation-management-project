@@ -1,5 +1,7 @@
 # storage-project
 
 ## Setup
-- Install requirements 
+- Install requirements
+```
 pip install -r .\requirements.txt
+```
