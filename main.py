@@ -29,7 +29,6 @@ password = tk.Label(login, text="Ingrese su contraseña:")
 passwordText = tk.Entry(login, show="*", width=40)
 loginButton = tk.Button(login, text="Login", command=on_login_button_click)
 
-# Centering the content
 email.place(relx=0.5, rely=0.3, anchor='center')
 emailText.place(relx=0.5, rely=0.35, anchor='center')
 password.place(relx=0.5, rely=0.4, anchor='center')
