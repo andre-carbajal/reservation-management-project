@@ -39,13 +39,11 @@ def show_login():
     passwordText = tk.Entry(login, show="*", width=40)
     loginButton = tk.Button(login, text="Login", command=on_login_button_click)
 
-    # Centering the content
     email.place(relx=0.5, rely=0.3, anchor='center')
     emailText.place(relx=0.5, rely=0.35, anchor='center')
     password.place(relx=0.5, rely=0.4, anchor='center')
-    passwordText.place(relx=0.5, rely=0.45, anchor='center')
+    passwordText.place(relx=0.5, rely=0.45, anchor=     'center')
     loginButton.place(relx=0.5, rely=0.55, anchor='center')
 
-    # Bind the Enter key to the login button click
     login.bind('<Return>', on_login_button_click)
     login.mainloop()
