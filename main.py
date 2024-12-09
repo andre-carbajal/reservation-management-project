@@ -3,7 +3,7 @@ import sqlite3
 
 # Andre Carbajal
 def create_user_database():
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (

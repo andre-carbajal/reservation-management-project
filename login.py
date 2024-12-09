@@ -5,7 +5,7 @@ import sqlite3
 
 # Andre Carbajal
 def login_user(email, password):
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM users WHERE email=? AND password=?", (email, password))
     result = cursor.fetchone()
