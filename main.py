@@ -1,5 +1,7 @@
-from login import show_login
 import sqlite3
+
+from login import LoginWindow
+
 
 # Andre Carbajal
 def create_user_database():
@@ -18,6 +20,7 @@ def create_user_database():
     conn.commit()
     conn.close()
 
+
 if __name__ == '__main__':
     create_user_database()
-    show_login()
+    LoginWindow()
