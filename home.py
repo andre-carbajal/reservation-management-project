@@ -15,17 +15,26 @@ class HomeWindow:
 
         self.home.geometry(f"{wventana}x{hventana}+{pwidth}+{pheight}")
 
-        menu_frame = tk.Frame(self.home)
-        menu_frame.pack(side="left", fill=tk.Y, padx=15, pady=15)
+        for i in range(3):
+            self.home.rowconfigure(i, weight=1)
+        for j in range(4):
+            self.home.columnconfigure(j, weight=1)
+
+        option_panel = tk.Frame(self.home)
+        option_panel.grid(row=0, column=0, rowspan=3, sticky="nsew")
 
         lista_servicios = ["Esmaltado", "Semipermanente", "Gel", "Esculpidas"]
-        pos = 0.3
-        for servicio in lista_servicios:
-            label = tk.Button(menu_frame, text=servicio)
-            label.place(rely=pos)
-            pos += 0.08
+        pos = 0.1
 
-        boton_reservas = tk.Button(menu_frame, text="Ver Reservaciones")
-        boton_reservas.pack(side=tk.BOTTOM)
+        for servicio in lista_servicios:
+            button = tk.Button(option_panel, text=servicio)
+            button.place(relx=0.1, rely=pos, relwidth=0.8, relheight=0.1)
+            pos += 0.15
+
+        boton_reservaciones = tk.Button(option_panel, text="Reservaciones")
+        boton_reservaciones.pack(side="bottom", fill="x", padx=10, pady=10)
+
+        content_panel = tk.Frame(self.home)
+        content_panel.grid(row=0, column=1, rowspan=3, columnspan=3, sticky="nsew")
 
         self.home.mainloop()
