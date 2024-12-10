@@ -1,5 +1,7 @@
 import tkinter as tk
 
+from reservation import ReservationFrame
+
 
 # Fatima Yupa
 class HomeWindow:
@@ -27,14 +29,21 @@ class HomeWindow:
         pos = 0.1
 
         for servicio in lista_servicios:
-            button = tk.Button(option_panel, text=servicio)
+            button = tk.Button(option_panel, text=servicio, command=lambda s=servicio: self.show_reservation_frame(s))
             button.place(relx=0.1, rely=pos, relwidth=0.8, relheight=0.1)
             pos += 0.15
 
         boton_reservaciones = tk.Button(option_panel, text="Reservaciones")
         boton_reservaciones.pack(side="bottom", fill="x", padx=10, pady=10)
 
-        content_panel = tk.Frame(self.home)
-        content_panel.grid(row=0, column=1, rowspan=3, columnspan=3, sticky="nsew")
+        self.content_panel = tk.Frame(self.home)
+        self.content_panel.grid(row=0, column=1, rowspan=3, columnspan=3, sticky="nsew")
 
         self.home.mainloop()
+
+    # Andre Carbajal
+    def show_reservation_frame(self, servicio):
+        for widget in self.content_panel.winfo_children():
+            widget.destroy()
+        reservation_frame = ReservationFrame(master=self.content_panel, servicio=servicio)
+        reservation_frame.pack(fill="both", expand=True)
