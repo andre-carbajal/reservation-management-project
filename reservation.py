@@ -8,6 +8,7 @@ class ReservationFrame(tk.Frame):
         super().__init__(master, bg='lightgray')
         self.master = master
         self.servicio = servicio
+        self.entradas = []
         self.pack()
         self.create_widgets()
 
