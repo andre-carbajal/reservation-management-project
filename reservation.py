@@ -114,13 +114,37 @@ class ReservationFrame(tk.Frame):
             messagebox.showwarning("Teléfono inválido", "Por favor, ingresa un número de teléfono válido (9 dígitos).")
             return
 
+        hora_reservacion = int(hora.split(":")[0]) * 60 + int(hora.split(":")[1].split(" ")[0])
+        if "PM" in hora and int(hora.split(":")[0]) != 12:
+            hora_reservacion += 12 * 60
+        elif "AM" in hora and int(hora.split(":")[0]) == 12:
+            hora_reservacion -= 12 * 60
+
         conn = sqlite3.connect('data.db')
         cursor = conn.cursor()
+        cursor.execute('''
+        SELECT hora FROM reservaciones WHERE fecha = ?
+        ''', (fecha,))
+        reservaciones = cursor.fetchall()
+
+        for reservacion in reservaciones:
+            hora_existente = reservacion[0]
+            hora_existente_minutos = int(hora_existente.split(":")[0]) * 60 + int(hora_existente.split(":")[1].split(" ")[0])
+            if "PM" in hora_existente and int(hora_existente.split(":")[0]) != 12:
+                hora_existente_minutos += 12 * 60
+            elif "AM" in hora_existente and int(hora_existente.split(":")[0]) == 12:
+                hora_existente_minutos -= 12 * 60
+
+            if abs(hora_reservacion - hora_existente_minutos) < 45:
+                messagebox.showwarning("Conflicto de horario", "Ya existe una reservación en el mismo rango de tiempo.")
+                conn.close()
+                return
+
         cursor.execute('''
         INSERT INTO reservaciones (nombre, telefono, tipo, precio, fecha, hora)
         VALUES (?, ?, ?, ?, ?, ?)
         ''', (nombre, telefono, tipo_uña, precio, fecha, hora))
         conn.commit()
         conn.close()
-        
+
         messagebox.showinfo("Éxito", "La cita ha sido agendada correctamente.")
