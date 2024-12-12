@@ -9,7 +9,7 @@ from home import HomeWindow
 def login_user(email, password, login_instance):
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE email=? AND password=?", (email, password))
+    cursor.execute("SELECT * FROM usuarios WHERE email=? AND password=?", (email, password))
     result = cursor.fetchone()
     conn.close()
 
