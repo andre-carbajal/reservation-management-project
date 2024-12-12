@@ -6,6 +6,7 @@ from tkinter import messagebox
 
 from tkcalendar import Calendar
 
+
 # Mariela Ramos
 class ReservationFrame(tk.Frame):
     def __init__(self, master=None, servicio=None):
@@ -107,7 +108,7 @@ class ReservationFrame(tk.Frame):
     def agendar_cita(self, servicio):
         nombre = self.entradas[0].get()
         telefono = self.entradas[1].get()
-        tipo_uña = servicio[0]
+        tipo = servicio[0]
         precio = servicio[1]
         fecha = self.entradas[2].get()
         hora = self.entradas[3].get()
@@ -148,9 +149,9 @@ class ReservationFrame(tk.Frame):
                 return
 
         cursor.execute('''
-        INSERT INTO reservaciones (nombre, telefono, tipo, precio, fecha, hora)
-        VALUES (?, ?, ?, ?, ?, ?)
-        ''', (nombre, telefono, tipo_uña, precio, fecha, hora))
+        INSERT INTO reservaciones (nombre, telefono, tipo, precio, fecha, hora, terminado)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (nombre, telefono, tipo, precio, fecha, hora, False))
         conn.commit()
         conn.close()
 

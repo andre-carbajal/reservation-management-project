@@ -22,7 +22,8 @@ def create_user_database():
         tipo TEXT NOT NULL,
         precio REAL NOT NULL,
         fecha TEXT NOT NULL,
-        hora TEXT NOT NULL
+        hora TEXT NOT NULL,
+        terminado BOOLEAN NOT NULL
     )
     ''')
     cursor.execute('''
