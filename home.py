@@ -25,11 +25,11 @@ class HomeWindow:
         option_panel = tk.Frame(self.home)
         option_panel.grid(row=0, column=0, rowspan=3, sticky="nsew")
 
-        lista_servicios = ["Esmaltado", "Semipermanente", "Gel", "Esculpidas"]
+        lista_servicios = [("Esmaltado", 25.0), ("Semipermanente", 35.0), ("Gel", 60.0), ("Esculpidas", 90.0)]
         pos = 0.1
 
         for servicio in lista_servicios:
-            button = tk.Button(option_panel, text=servicio, command=lambda s=servicio: self.show_reservation_frame(s))
+            button = tk.Button(option_panel, text=servicio[0], command=lambda s=servicio: self.show_reservation_frame(s))
             button.place(relx=0.1, rely=pos, relwidth=0.8, relheight=0.1)
             pos += 0.15
 

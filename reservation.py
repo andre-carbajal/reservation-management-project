@@ -18,8 +18,8 @@ class ReservationFrame(tk.Frame):
 
         # Tipo de Uña (fijo)
         tk.Label(campo_frame, text="Tipo de Uña:", font=("Arial", 12), bg="lightgray").pack(pady=(20, 5))
-        tipo_uña_label = tk.Label(campo_frame, text="Manicura Gel - S/50.00", font=("Arial", 12), bg="white")
-        tipo_uña_label.pack(pady=(0, 10))
+        self.tipo_uña_label = tk.Label(campo_frame, text=f"{self.servicio[0]} - S/{self.servicio[1]:.2f}", font=("Arial", 12), bg="white")
+        self.tipo_uña_label.pack(pady=(0, 10))
 
         # Campo para Nombre
         tk.Label(campo_frame, text="Nombre:", font=("Arial", 12), bg="lightgray").pack(pady=(10, 5))
