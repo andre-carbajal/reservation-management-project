@@ -6,7 +6,7 @@ from tkinter import messagebox
 
 from tkcalendar import Calendar
 
-
+# Mariela Ramos
 class ReservationFrame(tk.Frame):
     def __init__(self, master=None, servicio=None):
         super().__init__(master, bg='lightgray')
@@ -103,6 +103,7 @@ class ReservationFrame(tk.Frame):
                                 command=lambda s=self.servicio: self.agendar_cita(s))
         btn_agendar.pack(pady=(20, 20))
 
+    # Andre Carbajal
     def agendar_cita(self, servicio):
         nombre = self.entradas[0].get()
         telefono = self.entradas[1].get()
