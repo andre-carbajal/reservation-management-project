@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkcalendar import Calendar
 import re
+import sqlite3
 
 class ReservationFrame(tk.Frame):
     def __init__(self, master=None, servicio=None):
@@ -94,13 +95,14 @@ class ReservationFrame(tk.Frame):
         self.entradas.append(entry_hora)
 
         # Botón para Agendar
-        btn_agendar = tk.Button(campo_frame, text="Agendar", font=("Arial", 12), bg="#4CAF50", fg="white", command=self.agendar_cita)
+        btn_agendar = tk.Button(campo_frame, text="Agendar", font=("Arial", 12), bg="#4CAF50", fg="white", command=lambda s=self.servicio: self.agendar_cita(s))
         btn_agendar.pack(pady=(20, 20))
 
-    def agendar_cita(self):
-        tipo_uña = "Manicura Gel - S/50.00"
+    def agendar_cita(self, servicio):
         nombre = self.entradas[0].get()
         telefono = self.entradas[1].get()
+        tipo_uña = servicio[0]
+        precio = servicio[1]
         fecha = self.entradas[2].get()
         hora = self.entradas[3].get()
 
@@ -112,7 +114,13 @@ class ReservationFrame(tk.Frame):
             messagebox.showwarning("Teléfono inválido", "Por favor, ingresa un número de teléfono válido (9 dígitos).")
             return
 
-        messagebox.showinfo(
-            "Cita Agendada",
-            f"Cita agendada con éxito:\n\nTipo de Uña: {tipo_uña}\nNombre: {nombre}\nTeléfono: {telefono}\nFecha: {fecha}\nHora: {hora}"
-        )
+        conn = sqlite3.connect('data.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+        INSERT INTO reservaciones (nombre, telefono, tipo, precio, fecha, hora)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ''', (nombre, telefono, tipo_uña, precio, fecha, hora))
+        conn.commit()
+        conn.close()
+        
+        messagebox.showinfo("Éxito", "La cita ha sido agendada correctamente.")
