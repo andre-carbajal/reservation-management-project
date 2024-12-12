@@ -1,8 +1,11 @@
-import tkinter as tk
-from tkinter import messagebox
-from tkcalendar import Calendar
 import re
 import sqlite3
+import tkinter as tk
+from datetime import date
+from tkinter import messagebox
+
+from tkcalendar import Calendar
+
 
 class ReservationFrame(tk.Frame):
     def __init__(self, master=None, servicio=None):
@@ -19,7 +22,8 @@ class ReservationFrame(tk.Frame):
 
         # Tipo de Uña (fijo)
         tk.Label(campo_frame, text="Tipo de Uña:", font=("Arial", 12), bg="lightgray").pack(pady=(20, 5))
-        self.tipo_uña_label = tk.Label(campo_frame, text=f"{self.servicio[0]} - S/{self.servicio[1]:.2f}", font=("Arial", 12), bg="white")
+        self.tipo_uña_label = tk.Label(campo_frame, text=f"{self.servicio[0]} - S/{self.servicio[1]:.2f}",
+                                       font=("Arial", 12), bg="white")
         self.tipo_uña_label.pack(pady=(0, 10))
 
         # Campo para Nombre
@@ -49,7 +53,7 @@ class ReservationFrame(tk.Frame):
 
             ventana_fecha = tk.Toplevel(self.master)
             ventana_fecha.title("Seleccionar Fecha")
-            calendario = Calendar(ventana_fecha, selectmode="day", date_pattern="yyyy-mm-dd")
+            calendario = Calendar(ventana_fecha, selectmode="day", date_pattern="yyyy-mm-dd", mindate=date.today())
             calendario.pack(pady=10)
             tk.Button(ventana_fecha, text="Guardar", command=guardar_fecha).pack(pady=5)
 
@@ -95,7 +99,8 @@ class ReservationFrame(tk.Frame):
         self.entradas.append(entry_hora)
 
         # Botón para Agendar
-        btn_agendar = tk.Button(campo_frame, text="Agendar", font=("Arial", 12), bg="#4CAF50", fg="white", command=lambda s=self.servicio: self.agendar_cita(s))
+        btn_agendar = tk.Button(campo_frame, text="Agendar", font=("Arial", 12), bg="#4CAF50", fg="white",
+                                command=lambda s=self.servicio: self.agendar_cita(s))
         btn_agendar.pack(pady=(20, 20))
 
     def agendar_cita(self, servicio):
@@ -129,7 +134,8 @@ class ReservationFrame(tk.Frame):
 
         for reservacion in reservaciones:
             hora_existente = reservacion[0]
-            hora_existente_minutos = int(hora_existente.split(":")[0]) * 60 + int(hora_existente.split(":")[1].split(" ")[0])
+            hora_existente_minutos = int(hora_existente.split(":")[0]) * 60 + int(
+                hora_existente.split(":")[1].split(" ")[0])
             if "PM" in hora_existente and int(hora_existente.split(":")[0]) != 12:
                 hora_existente_minutos += 12 * 60
             elif "AM" in hora_existente and int(hora_existente.split(":")[0]) == 12:
