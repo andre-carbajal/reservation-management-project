@@ -1,8 +1,11 @@
 import sqlite3
+import sys
 import tkinter as tk
 from tkinter import messagebox
 
 from home import HomeWindow
+
+INTENTOS_MAXIMO = 3
 
 
 # Andre Carbajal
@@ -14,15 +17,25 @@ def login_user(email, password, login_instance):
     conn.close()
 
     if result:
+        login_instance.intentos = 0
         login_instance.login.destroy()
         HomeWindow()
     else:
-        messagebox.showerror("Error al iniciar sesion", "Email o contraseña incorrectos")
+        login_instance.intentos += 1
+        remaining_attempts = INTENTOS_MAXIMO - login_instance.intentos
+        if login_instance.intentos >= INTENTOS_MAXIMO:
+            messagebox.showerror("Error al iniciar sesión", "Demasiados intentos fallidos. El programa se cerrará.")
+            login_instance.login.destroy()
+            sys.exit()
+        else:
+            messagebox.showerror("Error al iniciar sesión",
+                                 f"Email o contraseña incorrectos. Intentos restantes: {remaining_attempts}")
 
 
 # Fatima Yupa
 class LoginWindow:
     def __init__(self):
+        self.intentos = 0
         self.login = tk.Tk()
         self.login.resizable(False, False)
         self.login.title("Login")
