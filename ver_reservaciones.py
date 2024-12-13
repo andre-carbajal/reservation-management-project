@@ -22,7 +22,7 @@ class Ver_Reservation_Frame(tk.Frame):
         container_frame.pack(fill=tk.X, padx=20, pady=20)
 
         # Mostrar los datos de la reserva
-        tk.Label(container_frame, text=f"{self.reserva['tipo_uña']}", font=("Arial", 14, "bold"), bg='#f0f0f0').pack(
+        tk.Label(container_frame, text=f"{self.reserva['tipo_uña']}", font=("Arial", 14, "italic"), bg='#f0f0f0').pack(
             anchor="w", pady=5)
         tk.Label(container_frame, text=f"Teléfono: {self.reserva['telefono']}", bg='#f0f0f0', font=("Arial", 12)).pack(
             anchor="w", pady=2)
@@ -32,11 +32,11 @@ class Ver_Reservation_Frame(tk.Frame):
             anchor="w", pady=2)
 
         # Botones para acciones
-        btn_frame = tk.Frame(container_frame, bg='#f0f0f0')
+        btn_frame = tk.Frame(container_frame, bg='#e7e6fa')
         btn_frame.pack(fill=tk.X, pady=5)
-        tk.Button(btn_frame, text="Editar", bg="orange", fg="white", font=("Arial", 10, "bold"), relief="flat",
+        tk.Button(btn_frame, text="Editar", bg="#ba55d3", fg="white", font=("Arial", 10, "bold"), relief="flat",
                   command=self.editar).pack(side=tk.RIGHT, padx=5)
-        tk.Button(btn_frame, text="Cancelar", bg="red", fg="white", font=("Arial", 10, "bold"), relief="flat",
+        tk.Button(btn_frame, text="Cancelar", bg="#800080", fg="white", font=("Arial", 10, "bold"), relief="flat",
                   command=self.cancelar).pack(side=tk.RIGHT, padx=5)
 
     def editar(self):
