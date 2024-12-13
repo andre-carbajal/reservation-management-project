@@ -74,7 +74,3 @@ class LoginWindow:
         email = self.emailText.get()
         password = self.passwordText.get()
         login_user(email, password, self)
-
-
-if __name__ == "__main__":
-    LoginWindow()
