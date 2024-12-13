@@ -2,7 +2,7 @@ import sqlite3
 import tkinter as tk
 from datetime import date
 from tkinter import messagebox, ttk
-
+import re
 from tkcalendar import Calendar
 
 
@@ -144,6 +144,9 @@ class Ver_Reservation_Frame(tk.Frame):
 
     # Andre Carbajal
     def guardar_cambios(self, nombre, telefono, fecha, hora, tipo, lista_servicios):
+        if not re.fullmatch(r"\d{9}", telefono):
+            messagebox.showwarning("Teléfono inválido", "Por favor, ingresa un número de teléfono válido (9 dígitos).")
+            return
         conn = sqlite3.connect('data.db')
         cursor = conn.cursor()
         cursor.execute('''
@@ -180,7 +183,7 @@ class Ver_Reservation_Frame(tk.Frame):
                   self.reserva['tipo_uña']))
             conn.commit()
             conn.close()
-            actualizar_reservas()
+            actualizar_reservas(self.lista_servicios)
 
 
 # Andre Carbajal
