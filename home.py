@@ -12,7 +12,7 @@ class HomeWindow:
         self.home.title("Home")
 
         wventana = 854
-        hventana = 480
+        hventana = 580
         pwidth = round(self.home.winfo_screenwidth() / 2 - wventana / 2)
         pheight = round(self.home.winfo_screenheight() / 2 - hventana / 2)
 

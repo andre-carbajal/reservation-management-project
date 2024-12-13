@@ -1,12 +1,13 @@
 import sqlite3
 import tkinter as tk
+from datetime import date
 from tkinter import messagebox
+from tkinter import ttk
 
-# Define global variables
-frame_canvas = None
-canvas = None
+from tkcalendar import Calendar
 
 
+# Kiara Tuesta y Mariela Ramos
 class Reservation_Frame(tk.Frame):
     def __init__(self, master=None, reserva=None):
         super().__init__(master, bg='white', bd=2, relief="groove")
@@ -41,7 +42,7 @@ class Reservation_Frame(tk.Frame):
     def editar(self):
         self.edit_window = tk.Toplevel(self.master)
         self.edit_window.title("Editar Reserva")
-        self.edit_window.geometry("400x400")
+        self.edit_window.geometry("400x500")
         self.edit_window.configure(bg="#f7f9fc")
 
         header = tk.Label(self.edit_window, text="Editar Reserva", font=("Arial", 16, "bold"), bg="#f7f9fc", fg="#333")
@@ -51,48 +52,71 @@ class Reservation_Frame(tk.Frame):
         form_frame.pack(pady=10, padx=20, fill=tk.BOTH, expand=True)
 
         # Nombre
+        validate_alpha = self.edit_window.register(lambda v: v.replace(" ", "").isalpha() or v == "")
         tk.Label(form_frame, text="Nombre:", font=("Arial", 12), bg="#f7f9fc", fg="#333").grid(row=0, column=0,
                                                                                                sticky="w", pady=5)
-        nombre_entry = tk.Entry(form_frame, font=("Arial", 12), width=30)
+        nombre_entry = tk.Entry(form_frame, font=("Arial", 12), width=30, validate="key",
+                                validatecommand=(validate_alpha, "%P"))
         nombre_entry.insert(0, self.reserva['nombre'])
         nombre_entry.grid(row=0, column=1, pady=5)
 
+        def validate_telefono(P):
+            return (P.isdigit() and len(P) <= 9) or P == ""
+
         # Teléfono
+        vcmd = (self.register(validate_telefono), "%P")
         tk.Label(form_frame, text="Teléfono:", font=("Arial", 12), bg="#f7f9fc", fg="#333").grid(row=1, column=0,
                                                                                                  sticky="w", pady=5)
-        telefono_entry = tk.Entry(form_frame, font=("Arial", 12), width=30)
+        telefono_entry = tk.Entry(form_frame, font=("Arial", 12), width=30, validate="key", validatecommand=vcmd)
         telefono_entry.insert(0, self.reserva['telefono'])
         telefono_entry.grid(row=1, column=1, pady=5)
 
         # Fecha
         tk.Label(form_frame, text="Fecha:", font=("Arial", 12), bg="#f7f9fc", fg="#333").grid(row=2, column=0,
                                                                                               sticky="w", pady=5)
-        fecha_entry = tk.Entry(form_frame, font=("Arial", 12), width=30)
-        fecha_entry.insert(0, self.reserva['fecha'])
-        fecha_entry.grid(row=2, column=1, pady=5)
+        fecha_button = tk.Button(form_frame, text=self.reserva['fecha'], font=("Arial", 12),
+                                 command=lambda: self.seleccionar_fecha(fecha_button))
+        fecha_button.grid(row=2, column=1, pady=5)
 
         # Hora
         tk.Label(form_frame, text="Hora:", font=("Arial", 12), bg="#f7f9fc", fg="#333").grid(row=3, column=0,
                                                                                              sticky="w", pady=5)
-        hora_entry = tk.Entry(form_frame, font=("Arial", 12), width=30)
-        hora_entry.insert(0, self.reserva['hora'])
-        hora_entry.grid(row=3, column=1, pady=5)
+        horas = [f"{h:02}:{m:02}" for h in range(8, 20) for m in (0, 15, 30, 45)]
+        hora_combo = ttk.Combobox(form_frame, values=horas, font=("Arial", 12), state='readonly')
+        hora_combo.set(self.reserva['hora'])
+        hora_combo.grid(row=3, column=1, pady=5)
 
         # Tipo de Uña
         tk.Label(form_frame, text="Tipo de Uña:", font=("Arial", 12), bg="#f7f9fc", fg="#333").grid(row=4, column=0,
                                                                                                     sticky="w", pady=5)
-        tipo_entry = tk.Entry(form_frame, font=("Arial", 12), width=30)
-        tipo_entry.insert(0, self.reserva['tipo_uña'])
-        tipo_entry.grid(row=4, column=1, pady=5)
+        tipos_uña = ["Esmaltado", "Semipermanente", "Gel", "Esculpidas"]
+        tipo_combo = ttk.Combobox(form_frame, values=tipos_uña, font=("Arial", 12), state='readonly')
+        tipo_combo.set(self.reserva['tipo_uña'])
+        tipo_combo.grid(row=4, column=1, pady=5)
 
         # Botón Guardar
-        save_button = tk.Button(self.edit_window, text="Guardar Cambios", font=("Arial", 12, "bold"), bg="#4CAF50",
-                                fg="white", relief="flat",
-                                command=lambda: self.guardar_cambios(nombre_entry.get(), telefono_entry.get(),
-                                                                     fecha_entry.get(), hora_entry.get(),
-                                                                     tipo_entry.get()))
+        save_button = tk.Button(
+            self.edit_window, text="Guardar Cambios", font=("Arial", 12, "bold"), bg="#4CAF50", fg="white",
+            relief="flat",
+            command=lambda: self.guardar_cambios(nombre_entry.get(), telefono_entry.get(), fecha_button['text'],
+                                                 hora_combo.get(), tipo_combo.get())
+        )
         save_button.pack(pady=20)
 
+    def seleccionar_fecha(self, button):
+        cal_window = tk.Toplevel(self.master)
+        cal_window.title("Seleccionar Fecha")
+
+        cal = Calendar(cal_window, selectmode='day', mindate=date.today())
+        cal.pack(pady=20)
+
+        def seleccionar():
+            button.config(text=cal.get_date())
+            cal_window.destroy()
+
+        tk.Button(cal_window, text="Seleccionar", command=seleccionar).pack(pady=10)
+
+    # Andre Carbajal
     def guardar_cambios(self, nombre, telefono, fecha, hora, tipo):
         conn = sqlite3.connect('data.db')
         cursor = conn.cursor()
@@ -115,6 +139,7 @@ class Reservation_Frame(tk.Frame):
         self.edit_window.destroy()
         actualizar_reservas()
 
+    #Andre Carbajal
     def cancelar(self):
         response = messagebox.askyesno("Cancelar",
                                        f"¿Está seguro de que desea cancelar la cita de {self.reserva['nombre']}?")
@@ -131,7 +156,7 @@ class Reservation_Frame(tk.Frame):
             conn.close()
             actualizar_reservas()
 
-
+# Andre Carbajal
 def obtener_reservas():
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
@@ -149,10 +174,12 @@ reservas = obtener_reservas()
 
 def actualizar_reservas():
     global frame_canvas, canvas
+    reservas = obtener_reservas()
     for widget in frame_canvas.winfo_children():
         widget.destroy()
     if not reservas:
-        no_reservas_label = tk.Label(frame_canvas, text="No hay reservaciones pendientes", font=("Arial", 14), bg='#e6e6e6')
+        no_reservas_label = tk.Label(frame_canvas, text="No hay reservaciones pendientes", font=("Arial", 14),
+                                     bg='#e6e6e6')
         no_reservas_label.pack(pady=20)
     else:
         for reserva in reservas:
