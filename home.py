@@ -1,6 +1,7 @@
 import tkinter as tk
 
 import ver_reservaciones
+from login import LoginWindow
 from reservation import ReservationFrame
 
 
@@ -50,6 +51,10 @@ class HomeWindow:
             button.place(relx=0.1, rely=pos, relwidth=0.8, relheight=0.1)
             pos += 0.15
 
+        boton_cerrar_sesion = tk.Button(option_panel, text="Cerrar sesion",
+                                        command=self.cerrar_sesion)
+        boton_cerrar_sesion.pack(side="bottom", pady=10)
+
         boton_reservaciones = tk.Button(option_panel, text="Reservaciones",
                                         command=lambda s=lista_servicios: ver_reservaciones.init_ver_reservaciones(s))
         boton_reservaciones.pack(side="bottom", pady=10)
@@ -58,6 +63,10 @@ class HomeWindow:
         self.content_panel.grid(row=0, column=1, rowspan=3, columnspan=3, sticky="nsew")
 
         self.home.mainloop()
+
+    def cerrar_sesion(self):
+        self.home.destroy()
+        LoginWindow()
 
     # Andre Carbajal
     def show_reservation_frame(self, servicio):

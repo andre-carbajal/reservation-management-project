@@ -1,15 +1,14 @@
-import sqlite3
-import sys
 import tkinter as tk
-from tkinter import messagebox
-
-from home import HomeWindow
 
 INTENTOS_MAXIMO = 3
 
 
 # Andre Carbajal
 def login_user(email, password, login_instance):
+    import sqlite3
+    import sys
+    from tkinter import messagebox
+
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM usuarios WHERE email=? AND password=?", (email, password))
@@ -19,6 +18,7 @@ def login_user(email, password, login_instance):
     if result:
         login_instance.intentos = 0
         login_instance.login.destroy()
+        from home import HomeWindow
         HomeWindow()
     else:
         login_instance.intentos += 1
