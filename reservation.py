@@ -54,6 +54,19 @@ class ReservationFrame(tk.Frame):
 
             ventana_fecha = tk.Toplevel(self.master)
             ventana_fecha.title("Seleccionar Fecha")
+            ventana_fecha.resizable(False, False)
+
+            ventana_ancho = 300
+            ventana_alto = 250
+
+            pantalla_ancho = ventana_fecha.winfo_screenwidth()
+            pantalla_alto = ventana_fecha.winfo_screenheight()
+
+            pos_x = (pantalla_ancho // 2) - (ventana_ancho // 2)
+            pos_y = (pantalla_alto // 2) - (ventana_alto // 2)
+
+            ventana_fecha.geometry(f"{ventana_ancho}x{ventana_alto}+{pos_x}+{pos_y}")
+
             calendario = Calendar(ventana_fecha, selectmode="day", date_pattern="yyyy-mm-dd", mindate=date.today())
             calendario.pack(pady=10)
             tk.Button(ventana_fecha, text="Guardar", command=guardar_fecha).pack(pady=5)
@@ -78,6 +91,18 @@ class ReservationFrame(tk.Frame):
 
             ventana_hora = tk.Toplevel(self.master)
             ventana_hora.title("Seleccionar Hora")
+            ventana_hora.resizable(False, False)
+
+            ventana_ancho = 270
+            ventana_alto = 80
+
+            pantalla_ancho = ventana_hora.winfo_screenwidth()
+            pantalla_alto = ventana_hora.winfo_screenheight()
+
+            pos_x = (pantalla_ancho // 2) - (ventana_ancho // 2)
+            pos_y = (pantalla_alto // 2) - (ventana_alto // 2)
+
+            ventana_hora.geometry(f"{ventana_ancho}x{ventana_alto}+{pos_x}+{pos_y}")
 
             tk.Label(ventana_hora, text="Hora:").pack(pady=(10, 5))
             spin_hora = tk.Spinbox(ventana_hora, from_=1, to=12, width=5, wrap=True)
@@ -100,9 +125,10 @@ class ReservationFrame(tk.Frame):
         self.entradas.append(entry_hora)
 
         # Botón para Agendar
-        btn_agendar = tk.Button(campo_frame, text="Agendar", font=("Arial", 12), bg="#4CAF50", fg="white",
+        btn_agendar = tk.Button(campo_frame, text="Agendar", font=("Arial", 12), bg="#4CAF50", fg="white", width=10,
+                                height=5,
                                 command=lambda s=self.servicio: self.agendar_cita(s))
-        btn_agendar.pack(pady=(20, 20))
+        btn_agendar.pack(pady=(5, 20))
 
     # Andre Carbajal
     def agendar_cita(self, servicio):

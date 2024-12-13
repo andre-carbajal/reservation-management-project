@@ -1,8 +1,7 @@
 import sqlite3
 import tkinter as tk
 from datetime import date
-from tkinter import messagebox
-from tkinter import ttk
+from tkinter import messagebox, ttk
 
 from tkcalendar import Calendar
 
@@ -42,7 +41,21 @@ class Reservation_Frame(tk.Frame):
     def editar(self):
         self.edit_window = tk.Toplevel(self.master)
         self.edit_window.title("Editar Reserva")
-        self.edit_window.geometry("400x500")
+        self.edit_window.geometry("400x400")
+
+        # Obtener el tamaño de la pantalla
+        ancho_pantalla = self.edit_window.winfo_screenwidth()
+        alto_pantalla = self.edit_window.winfo_screenheight()
+
+        # Calcular las coordenadas para centrar la ventana
+        ancho_ventana = 400
+        alto_ventana = 400
+        pos_x = (ancho_pantalla // 2) - (ancho_ventana // 2)
+        pos_y = (alto_pantalla // 2) - (alto_ventana // 2)
+
+        # Establecer la geometría con la posición calculada
+        self.edit_window.geometry(f"{ancho_ventana}x{alto_ventana}+{pos_x}+{pos_y}")
+
         self.edit_window.configure(bg="#f7f9fc")
 
         header = tk.Label(self.edit_window, text="Editar Reserva", font=("Arial", 16, "bold"), bg="#f7f9fc", fg="#333")
@@ -106,6 +119,18 @@ class Reservation_Frame(tk.Frame):
     def seleccionar_fecha(self, button):
         cal_window = tk.Toplevel(self.master)
         cal_window.title("Seleccionar Fecha")
+        cal_window.resizable(False, False)
+
+        ventana_ancho = 300
+        ventana_alto = 300
+
+        pantalla_ancho = cal_window.winfo_screenwidth()
+        pantalla_alto = cal_window.winfo_screenheight()
+
+        pos_x = (pantalla_ancho // 2) - (ventana_ancho // 2)
+        pos_y = (pantalla_alto // 2) - (ventana_alto // 2)
+
+        cal_window.geometry(f"{ventana_ancho}x{ventana_alto}+{pos_x}+{pos_y}")
 
         cal = Calendar(cal_window, selectmode='day', mindate=date.today())
         cal.pack(pady=20)
@@ -139,7 +164,7 @@ class Reservation_Frame(tk.Frame):
         self.edit_window.destroy()
         actualizar_reservas()
 
-    #Andre Carbajal
+    # Andre Carbajal
     def cancelar(self):
         response = messagebox.askyesno("Cancelar",
                                        f"¿Está seguro de que desea cancelar la cita de {self.reserva['nombre']}?")
@@ -155,6 +180,7 @@ class Reservation_Frame(tk.Frame):
             conn.commit()
             conn.close()
             actualizar_reservas()
+
 
 # Andre Carbajal
 def obtener_reservas():
@@ -192,7 +218,22 @@ def init_ver_reservaciones():
     global frame_canvas, canvas
     root = tk.Tk()
     root.title("Reservación de Uñas")
-    root.geometry("600x600")
+
+    # Dimensiones de la ventana
+    ancho_ventana = 600
+    alto_ventana = 600
+
+    # Obtener el tamaño de la pantalla
+    ancho_pantalla = root.winfo_screenwidth()
+    alto_pantalla = root.winfo_screenheight()
+
+    # Calcular posición para centrar la ventana
+    pos_x = (ancho_pantalla // 2) - (ancho_ventana // 2)
+    pos_y = (alto_pantalla // 2) - (alto_ventana // 2)
+
+    # Establecer geometría centrada
+    root.geometry(f"{ancho_ventana}x{alto_ventana}+{pos_x}+{pos_y}")
+    root.resizable(False, False)
 
     canvas = tk.Canvas(root, bg='#e6e6e6')
     canvas.pack(side="left", fill="both", expand=True)
@@ -204,6 +245,22 @@ def init_ver_reservaciones():
 
     frame_canvas = tk.Frame(canvas, bg='#e6e6e6')
     canvas.create_window((0, 0), window=frame_canvas, anchor="nw")
+
+    def ajustar_scroll(event=None):
+        canvas.configure(scrollregion=canvas.bbox("all"))
+
+    frame_canvas.bind("<Configure>", ajustar_scroll)
+
+    # Centrar el contenido dentro del Canvas
+    def centrar_contenido(event=None):
+        canvas_width = canvas.winfo_width()
+        frame_width = frame_canvas.winfo_width()
+        if frame_width < canvas_width:
+            canvas.itemconfig("window", anchor="n", width=canvas_width)
+        else:
+            canvas.itemconfig("window", anchor="nw", width=frame_width)
+
+    canvas.bind("<Configure>", centrar_contenido)
 
     actualizar_reservas()
 
