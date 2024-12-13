@@ -50,6 +50,16 @@ class ReservationFrame(tk.Frame):
 
             ventana_fecha = tk.Toplevel(self.master)
             ventana_fecha.title("Seleccionar Fecha")
+            ventana_ancho = 300
+            ventana_alto = 250
+
+            pantalla_ancho = ventana_fecha.winfo_screenwidth()
+            pantalla_alto = ventana_fecha.winfo_screenheight()
+
+            pos_x = (pantalla_ancho // 2) - (ventana_ancho // 2)
+            pos_y = (pantalla_alto // 2) - (ventana_alto // 2)
+
+            ventana_fecha.geometry(f"{ventana_ancho}x{ventana_alto}+{pos_x}+{pos_y}")
             calendario = Calendar(ventana_fecha, selectmode="day", date_pattern="yyyy-mm-dd", mindate=date.today())
             calendario.pack(pady=10)
             tk.Button(ventana_fecha, text="Guardar", command=guardar_fecha, bg="#6A3D9A", fg="white").pack(
