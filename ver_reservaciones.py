@@ -41,7 +41,7 @@ class Reservation_Frame(tk.Frame):
     def editar(self):
         self.edit_window = tk.Toplevel(self.master)
         self.edit_window.title("Editar Reserva")
-        self.edit_window.geometry("400x400")
+        self.edit_window.geometry("400x500")
 
         # Obtener el tamaño de la pantalla
         ancho_pantalla = self.edit_window.winfo_screenwidth()
@@ -94,8 +94,8 @@ class Reservation_Frame(tk.Frame):
         # Hora
         tk.Label(form_frame, text="Hora:", font=("Arial", 12), bg="#f7f9fc", fg="#333").grid(row=3, column=0,
                                                                                              sticky="w", pady=5)
-        horas = [f"{h:02}:{m:02}" for h in range(8, 20) for m in (0, 15, 30, 45)]
-        hora_combo = ttk.Combobox(form_frame, values=horas, font=("Arial", 12), state='readonly')
+        horas = [f"{h:02}:00" for h in range(8, 20)]
+        hora_combo = ttk.Combobox(form_frame, values=horas, font=("Arial", 12))
         hora_combo.set(self.reserva['hora'])
         hora_combo.grid(row=3, column=1, pady=5)
 
@@ -103,7 +103,7 @@ class Reservation_Frame(tk.Frame):
         tk.Label(form_frame, text="Tipo de Uña:", font=("Arial", 12), bg="#f7f9fc", fg="#333").grid(row=4, column=0,
                                                                                                     sticky="w", pady=5)
         tipos_uña = ["Esmaltado", "Semipermanente", "Gel", "Esculpidas"]
-        tipo_combo = ttk.Combobox(form_frame, values=tipos_uña, font=("Arial", 12), state='readonly')
+        tipo_combo = ttk.Combobox(form_frame, values=tipos_uña, font=("Arial", 12))
         tipo_combo.set(self.reserva['tipo_uña'])
         tipo_combo.grid(row=4, column=1, pady=5)
 

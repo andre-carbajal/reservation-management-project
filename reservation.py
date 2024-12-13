@@ -126,7 +126,7 @@ class ReservationFrame(tk.Frame):
 
         # Botón para Agendar
         btn_agendar = tk.Button(campo_frame, text="Agendar", font=("Arial", 12), bg="#4CAF50", fg="white", width=10,
-                                height=5,
+                                height=2,
                                 command=lambda s=self.servicio: self.agendar_cita(s))
         btn_agendar.pack(pady=(5, 20))
 
