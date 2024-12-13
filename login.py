@@ -47,17 +47,25 @@ class LoginWindow:
 
         self.login.geometry(f"{wventana}x{hventana}+{pwidth}+{pheight}")
 
-        email = tk.Label(self.login, text="Ingrese su email:")
-        self.emailText = tk.Entry(self.login, width=40)
-        password = tk.Label(self.login, text="Ingrese su contraseña:")
-        self.passwordText = tk.Entry(self.login, show="*", width=40)
-        loginButton = tk.Button(self.login, text="Login", command=self.on_login_button_click)
+        self.login.configure(bg="#EDE7F6")
 
-        email.place(relx=0.5, rely=0.3, anchor='center')
-        self.emailText.place(relx=0.5, rely=0.35, anchor='center')
-        password.place(relx=0.5, rely=0.4, anchor='center')
-        self.passwordText.place(relx=0.5, rely=0.45, anchor='center')
-        loginButton.place(relx=0.5, rely=0.55, anchor='center')
+        title = tk.Label(self.login, text="Bienvenido", font=("Arial", 20, "bold"), bg="#EDE7F6", fg="#5E35B1")
+        title.place(relx=0.5, rely=0.2, anchor='center')
+
+        email_label = tk.Label(self.login, text="Email", font=("Arial", 12), bg="#EDE7F6", fg="#5E35B1")
+        email_label.place(relx=0.5, rely=0.35, anchor='center')
+        self.emailText = tk.Entry(self.login, width=30, font=("Arial", 12))
+        self.emailText.place(relx=0.5, rely=0.4, anchor='center')
+
+        password_label = tk.Label(self.login, text="Contraseña", font=("Arial", 12), bg="#EDE7F6", fg="#5E35B1")
+        password_label.place(relx=0.5, rely=0.5, anchor='center')
+        self.passwordText = tk.Entry(self.login, show="*", width=30, font=("Arial", 12))
+        self.passwordText.place(relx=0.5, rely=0.55, anchor='center')
+
+        loginButton = tk.Button(self.login, text="Login", command=self.on_login_button_click,
+                                font=("Arial", 12, "bold"),
+                                bg="#7E57C2", fg="white", width=15, relief="flat", cursor="hand2")
+        loginButton.place(relx=0.5, rely=0.7, anchor='center')
 
         self.login.bind('<Return>', self.on_login_button_click)
         self.login.mainloop()
@@ -66,3 +74,7 @@ class LoginWindow:
         email = self.emailText.get()
         password = self.passwordText.get()
         login_user(email, password, self)
+
+
+if __name__ == "__main__":
+    LoginWindow()

@@ -143,7 +143,7 @@ class Ver_Reservation_Frame(tk.Frame):
         tk.Button(cal_window, text="Seleccionar", command=seleccionar).pack(pady=10)
 
     # Andre Carbajal
-    def guardar_cambios(self, nombre, telefono, fecha, hora, tipo):
+    def guardar_cambios(self, nombre, telefono, fecha, hora, tipo, lista_servicios):
         conn = sqlite3.connect('data.db')
         cursor = conn.cursor()
         cursor.execute('''
@@ -163,7 +163,7 @@ class Ver_Reservation_Frame(tk.Frame):
         self.reserva['hora'] = hora
         self.reserva['tipo_uña'] = tipo
         self.edit_window.destroy()
-        actualizar_reservas()
+        actualizar_reservas(lista_servicios)
 
     # Andre Carbajal
     def cancelar(self):
