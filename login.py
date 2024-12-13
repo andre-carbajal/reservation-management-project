@@ -16,7 +16,7 @@ def login_user(email, password, login_instance):
     result = cursor.fetchone()
     conn.close()
 
-    if True:
+    if result:
         login_instance.intentos = 0
         login_instance.login.destroy()
         HomeWindow()
