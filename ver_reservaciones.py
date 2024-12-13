@@ -135,7 +135,7 @@ class Reservation_Frame(tk.Frame):
 def obtener_reservas():
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT nombre, telefono, tipo, precio, fecha, hora FROM reservaciones')
+    cursor.execute('SELECT nombre, telefono, tipo, precio, fecha, hora FROM reservaciones WHERE terminado = 0')
     reservas = [
         {"nombre": row[0], "telefono": row[1], "tipo_uña": row[2], "precio": row[3], "fecha": row[4], "hora": row[5]}
         for row in cursor.fetchall()
@@ -151,8 +151,12 @@ def actualizar_reservas():
     global frame_canvas, canvas
     for widget in frame_canvas.winfo_children():
         widget.destroy()
-    for reserva in reservas:
-        Reservation_Frame(master=frame_canvas, reserva=reserva)
+    if not reservas:
+        no_reservas_label = tk.Label(frame_canvas, text="No hay reservaciones pendientes", font=("Arial", 14), bg='#e6e6e6')
+        no_reservas_label.pack(pady=20)
+    else:
+        for reserva in reservas:
+            Reservation_Frame(master=frame_canvas, reserva=reserva)
     frame_canvas.update_idletasks()
     canvas.config(scrollregion=canvas.bbox("all"))
 
