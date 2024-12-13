@@ -7,11 +7,12 @@ from tkcalendar import Calendar
 
 
 # Kiara Tuesta y Mariela Ramos
-class Reservation_Frame(tk.Frame):
-    def __init__(self, master=None, reserva=None):
+class Ver_Reservation_Frame(tk.Frame):
+    def __init__(self, master=None, reserva=None, lista_servicios=None):
         super().__init__(master, bg='white', bd=2, relief="groove")
         self.master = master
         self.reserva = reserva
+        self.lista_servicios = lista_servicios
         self.pack(pady=0, fill=tk.X)
         self.create_widgets()
 
@@ -102,8 +103,8 @@ class Reservation_Frame(tk.Frame):
         # Tipo de Uña
         tk.Label(form_frame, text="Tipo de Uña:", font=("Arial", 12), bg="#f7f9fc", fg="#333").grid(row=4, column=0,
                                                                                                     sticky="w", pady=5)
-        tipos_uña = ["Esmaltado", "Semipermanente", "Gel", "Esculpidas"]
-        tipo_combo = ttk.Combobox(form_frame, values=tipos_uña, font=("Arial", 12))
+        tipos_una = [item[0] for item in self.lista_servicios]
+        tipo_combo = ttk.Combobox(form_frame, values=tipos_una, font=("Arial", 12), state="readonly")
         tipo_combo.set(self.reserva['tipo_uña'])
         tipo_combo.grid(row=4, column=1, pady=5)
 
@@ -198,7 +199,7 @@ def obtener_reservas():
 reservas = obtener_reservas()
 
 
-def actualizar_reservas():
+def actualizar_reservas(lista_servicios):
     global frame_canvas, canvas
     reservas = obtener_reservas()
     for widget in frame_canvas.winfo_children():
@@ -209,12 +210,12 @@ def actualizar_reservas():
         no_reservas_label.pack(pady=20)
     else:
         for reserva in reservas:
-            Reservation_Frame(master=frame_canvas, reserva=reserva)
+            Ver_Reservation_Frame(master=frame_canvas, reserva=reserva, lista_servicios=lista_servicios)
     frame_canvas.update_idletasks()
     canvas.config(scrollregion=canvas.bbox("all"))
 
 
-def init_ver_reservaciones():
+def init_ver_reservaciones(lista_servicios):
     global frame_canvas, canvas
     root = tk.Tk()
     root.title("Reservación de Uñas")
@@ -262,6 +263,6 @@ def init_ver_reservaciones():
 
     canvas.bind("<Configure>", centrar_contenido)
 
-    actualizar_reservas()
+    actualizar_reservas(lista_servicios)
 
     root.mainloop()
