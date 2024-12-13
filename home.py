@@ -1,5 +1,6 @@
 import tkinter as tk
 
+import ver_reservaciones
 from reservation import ReservationFrame
 
 
@@ -33,7 +34,7 @@ class HomeWindow:
             button.place(relx=0.1, rely=pos, relwidth=0.8, relheight=0.1)
             pos += 0.15
 
-        boton_reservaciones = tk.Button(option_panel, text="Reservaciones")
+        boton_reservaciones = tk.Button(option_panel, text="Reservaciones", command=ver_reservaciones.init_ver_reservaciones)
         boton_reservaciones.pack(side="bottom", fill="x", padx=10, pady=10)
 
         self.content_panel = tk.Frame(self.home)
