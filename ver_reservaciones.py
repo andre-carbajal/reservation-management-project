@@ -113,7 +113,7 @@ class Ver_Reservation_Frame(tk.Frame):
             self.edit_window, text="Guardar Cambios", font=("Arial", 12, "bold"), bg="#4CAF50", fg="white",
             relief="flat",
             command=lambda: self.guardar_cambios(nombre_entry.get(), telefono_entry.get(), fecha_button['text'],
-                                                 hora_combo.get(), tipo_combo.get())
+                                                 hora_combo.get(), tipo_combo.get(), self.lista_servicios)
         )
         save_button.pack(pady=20)
 
